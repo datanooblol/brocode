@@ -6,7 +6,7 @@ BroCode is a study of agentic workflow and AI agents framework designed to solve
 
 ## Overview
 
-A CLI tool for managing and running LLM-based chat agents with support for multiple model backends.
+A CLI tool for managing and running LLM-based chat agents with support for multiple model backends. BroCode uses an agentic workflow system that combines code generation, chat capabilities, and codebase analysis in an interactive flow.
 
 ## Installation
 
@@ -82,14 +82,69 @@ class MyLocalLLM(BedrockChat):
         super().__init__(model_name="us.meta.llama3-2-11b-instruct-v1:0")
 ```
 
-## Chat Commands
+## How BroCode Works
 
-- Type `/exit` to quit the chat session
-- All other input is sent to the LLM
+When you run `brocode start`, BroCode initiates an agentic workflow that provides two main modes:
+
+### Workflow Overview
+
+```
+[Start] → [User Input] → [Route Decision]
+                ↓
+        ┌─────────────────┐
+        ↓                 ↓
+   [Code Mode]      [Chat Mode]
+        ↓                 ↓
+   [Code Generator]  [Chat Agent]
+        ↓                 ↓
+        └─────────────────┘
+                ↓
+        [Back to User Input]
+```
+
+### Interactive Commands
+
+- **`/code`** - Enter code generation mode
+  - Prompts for coding task description
+  - Optionally analyze existing codebase for context
+  - Choose output format (terminal display or save to file)
+  - Generates Python code following best practices
+  
+- **`/exit`** - Quit the session
+- **`/clear`** - Clear chat history
+- **Default input** - Enter chat mode for general conversation
+
+### Code Generation Workflow
+
+1. **Task Input**: Describe what you want to code
+2. **Codebase Analysis** (optional): 
+   - Provide folder or file path
+   - BroCode analyzes Python files using AST parsing
+   - Extracts classes, functions, imports, and structure
+   - Maintains consistency with existing code patterns
+3. **Output Selection**: Choose terminal display or file save
+4. **Code Generation**: AI generates code following:
+   - PEP 8 style guidelines
+   - Google docstring format
+   - Type hints and error handling
+   - Consistency with existing codebase patterns
+
+### Chat Mode
+
+Provides general coding assistance, debugging help, and technical discussions using a knowledgeable coding assistant persona.
 
 ## Configuration
 
 Models are stored in `.brocode_config.yaml` in your current directory.
+
+### Configuration File Structure
+
+```yaml
+models:
+  llama3.2-11b: /path/to/mylocal.py
+  gpt-4: /path/to/gpt4_model.py
+default_model: llama3.2-11b
+```
 
 ## Dependencies
 
