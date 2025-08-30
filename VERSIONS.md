@@ -1,6 +1,31 @@
 # Version History
 
-## 0.1.0 (Current Release)
+## 0.1.1 (Current Release)
+
+### New Features
+- **BroSession Directory Structure**: All session files now organized in `brosession/` folder
+  - `brosession/brocode_config.yaml` - Model configurations
+  - `brosession/session.db` - Session data
+  - `brosession/prompt_hub/` - Customizable prompt files
+- **Per-Directory Sessions**: Each directory maintains independent configurations
+- **Customizable Prompts**: Users can edit prompt files in `brosession/prompt_hub/`
+- **Automatic Prompt Copying**: Prompt files copied from package to brosession on first run
+- **Session Management**: `brocode model config` command to show config file location
+
+### Bug Fixes
+- **Fixed Prompt File Path Issues**: Resolved "can't find ./prompt_hub/*.md" errors
+- **Fixed Configuration Location**: Config files now properly created in brosession directory
+- **Improved Resource Management**: Uses `importlib.resources` instead of deprecated `pkg_resources`
+
+### Technical Improvements
+- **Package Resource Handling**: Proper bundling of prompt files with package
+- **Path Resolution**: Robust file path handling for cross-platform compatibility
+- **Session Isolation**: Each project directory maintains separate session state
+
+### Commands Added
+- `brocode model config` - Display configuration file location and status
+
+## 0.1.0
 
 ### Core Features
 - **Agentic Workflow System**: Multi-mode interactive workflow using broflow framework

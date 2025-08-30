@@ -3,17 +3,24 @@ from brocode.actions.code_generator import CodeGenerator
 from brocode.actions.user_input import UserInput
 from brocode.actions.chat import Chat
 from broprompt import Prompt
+from pathlib import Path
 
 def get_flow(model):
     start_action = Start(message="Start Coding")
     end_action = End(message="End Coding")
+    
+    # Use prompt files from brosession
+    prompt_hub_dir = Path.cwd() / "brosession" / "prompt_hub"
+    code_prompt = Prompt.from_markdown(str(prompt_hub_dir / "code_generator.md")).str
+    chat_prompt = Prompt.from_markdown(str(prompt_hub_dir / "chat.md")).str
+    
     code_generator = CodeGenerator(
-        system_prompt=Prompt.from_markdown("./prompt_hub/code_generator.md").str,
+        system_prompt=code_prompt,
         model=model
     )
     user_input_action = UserInput()
     chat_action = Chat(
-        system_prompt=Prompt.from_markdown("./prompt_hub/chat.md").str,
+        system_prompt=chat_prompt,
         model=model
     )
     start_action >> user_input_action

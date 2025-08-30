@@ -1,4 +1,3 @@
 default_model: local-gpt
 models:
-  llama3.2-11b: D:\brocode\mylocal.py
   local-gpt: D:\brocode\mylocal.py
