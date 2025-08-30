@@ -84,22 +84,44 @@ class MyLocalLLM(BedrockChat):
 
 ## How BroCode Works
 
-When you run `brocode start`, BroCode initiates an agentic workflow that provides two main modes:
+When you run `brocode start`, BroCode creates a `brosession` directory in your current location and initiates an agentic workflow with two main modes:
+
+### BroSession Directory Structure
+
+BroCode organizes all session-related files in a `brosession` directory:
+
+```
+your-project/
+├── brosession/
+│   ├── brocode_config.yaml    # Model configurations
+│   ├── session.db             # Session data
+│   └── prompt_hub/            # Customizable prompts
+│       ├── chat.md           # Chat assistant persona
+│       └── code_generator.md  # Code generation guidelines
+└── your-code-files...
+```
+
+### Session Management
+
+- **Per-Directory Sessions**: Each directory gets its own `brosession` with independent configurations
+- **Customizable Prompts**: Edit files in `brosession/prompt_hub/` to customize AI behavior
+- **Portable Sessions**: Move or copy `brosession` folders to share configurations
+- **Easy Cleanup**: Delete `brosession` folder to reset everything
 
 ### Workflow Overview
 
 ```
-[Start] → [User Input] → [Route Decision]
-                ↓
-        ┌─────────────────┐
-        ↓                 ↓
-   [Code Mode]      [Chat Mode]
-        ↓                 ↓
-   [Code Generator]  [Chat Agent]
-        ↓                 ↓
-        └─────────────────┘
-                ↓
-        [Back to User Input]
+[Start] → [Setup BroSession] → [User Input] → [Route Decision]
+                                     ↓
+                             ┌─────────────────┐
+                             ↓                 ↓
+                        [Code Mode]      [Chat Mode]
+                             ↓                 ↓
+                        [Code Generator]  [Chat Agent]
+                             ↓                 ↓
+                             └─────────────────┘
+                                     ↓
+                             [Back to User Input]
 ```
 
 ### Interactive Commands
@@ -135,7 +157,7 @@ Provides general coding assistance, debugging help, and technical discussions us
 
 ## Configuration
 
-Models are stored in `.brocode_config.yaml` in your current directory.
+Models are stored in `brosession/brocode_config.yaml` in your current directory. Use `brocode model config` to see the exact location.
 
 ### Configuration File Structure
 
@@ -145,6 +167,12 @@ models:
   gpt-4: /path/to/gpt4_model.py
 default_model: llama3.2-11b
 ```
+
+### Customizing Prompts
+
+After running `brocode start` once, you can customize the AI behavior by editing:
+- `brosession/prompt_hub/chat.md` - Chat assistant personality and instructions
+- `brosession/prompt_hub/code_generator.md` - Code generation guidelines and style
 
 ## Dependencies
 

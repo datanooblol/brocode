@@ -12,8 +12,30 @@ from brollm import BaseLLM    # Base LLM class
 
 # In-memory registry of LLM classes
 LLM_REGISTRY: Dict[str, Type[BaseLLM]] = {}
-# Path to persistent config file
-CONFIG_FILE = Path.cwd() / ".brocode_config.yaml"
+# Create brosession directory structure
+BROSESSION_DIR = Path.cwd() / "brosession"
+CONFIG_FILE = BROSESSION_DIR / "brocode_config.yaml"
+SESSION_DB = BROSESSION_DIR / "session.db"
+PROMPT_HUB_DIR = BROSESSION_DIR / "prompt_hub"
+
+def ensure_brosession_dir():
+    """Ensure brosession directory exists."""
+    BROSESSION_DIR.mkdir(exist_ok=True)
+
+def copy_prompt_hub():
+    """Copy prompt_hub from package to brosession if not exists."""
+    from importlib import resources
+    
+    if not PROMPT_HUB_DIR.exists():
+        PROMPT_HUB_DIR.mkdir(exist_ok=True)
+        
+        # Copy chat.md
+        with resources.files('brocode').joinpath('prompt_hub/chat.md').open('r') as f:
+            (PROMPT_HUB_DIR / 'chat.md').write_text(f.read())
+        
+        # Copy code_generator.md
+        with resources.files('brocode').joinpath('prompt_hub/code_generator.md').open('r') as f:
+            (PROMPT_HUB_DIR / 'code_generator.md').write_text(f.read())
 
 def _load_registered_models():
     """Load previously registered models from persistent storage."""
@@ -53,6 +75,7 @@ def save_model_registration(name: str, path: str):
         name: Name to register the model under
         path: File path to the model implementation
     """
+    ensure_brosession_dir()
     config = {'models': {}}
     # Load existing config if file exists
     if CONFIG_FILE.exists():
@@ -124,6 +147,7 @@ def set_default_model(name: str):
     Args:
         name: Name of the model to set as default
     """
+    ensure_brosession_dir()
     config = {'models': {}}
     # Load existing config if file exists
     if CONFIG_FILE.exists():
@@ -156,6 +180,7 @@ def remove_model(name: str):
     Args:
         name: Name of the model to remove
     """
+    ensure_brosession_dir()
     config = {'models': {}}
     # Load existing config if file exists
     if CONFIG_FILE.exists():

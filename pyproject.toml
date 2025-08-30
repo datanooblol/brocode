@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brocode"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.1"
+description = "brocode is a lightweight coding assistant in CLI"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -23,7 +23,9 @@ brocode = "brocode.cli:main"
 [tool.setuptools.packages.find]
 where = ["."] 
 include = ["brocode*"]
-exclude = ["prompt_hub*"]
+
+[tool.setuptools.package-data]
+brocode = ["prompt_hub/*.md"]
 
 [dependency-groups]
 dev = [

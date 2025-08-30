@@ -33,9 +33,15 @@ def main():
 @click.option('--llm', help='LLM to use (uses default if not specified)')
 def start(llm):
     """Start chat session."""
+    from brocode.register import ensure_brosession_dir, SESSION_DB, copy_prompt_hub
+    
+    # Setup brosession directory structure
+    ensure_brosession_dir()
+    copy_prompt_hub()
+    SESSION_DB.touch(exist_ok=True)
+    
     llm_name = llm or get_default_model() or "echo"
     model = get_llm(llm_name)
-    # start_chat(model)
     flow = get_flow(model)
     shared = Shared()
     flow.run(shared)
@@ -109,4 +115,14 @@ def remove():
             click.echo("Invalid selection.")
     except (click.Abort, KeyboardInterrupt):
         click.echo("\nCancelled.")
+
+@model.command()
+def config():
+    """Show config file location."""
+    from brocode.register import CONFIG_FILE
+    click.echo(f"Config file location: {CONFIG_FILE}")
+    if CONFIG_FILE.exists():
+        click.echo("Config file exists.")
+    else:
+        click.echo("Config file does not exist yet.")
 
