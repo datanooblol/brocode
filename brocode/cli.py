@@ -10,6 +10,7 @@ from brocode.chat import start_chat
 from brocode.register import get_llm, save_model_registration, list_registered_models, set_default_model, get_default_model, remove_model
 from brocode.flow import get_flow
 from brocode.actions import Shared
+from brocode.banner import show_banner
 
 @click.group(epilog="""\b
 Examples:
@@ -23,17 +24,22 @@ Examples:
     brocode start
   
   Start chat with specific model:
-    brocode start --llm mylocal""")
+    brocode start --llm mylocal""", invoke_without_command=True)
 @click.version_option()
-def main():
+@click.pass_context
+def main(ctx):
     """BroCode - CLI tool for managing and running LLM-based chat agents."""
-    pass
+    if ctx.invoked_subcommand is None:
+        show_banner()
 
 @main.command()
 @click.option('--llm', help='LLM to use (uses default if not specified)')
 def start(llm):
     """Start chat session."""
     from brocode.register import ensure_brosession_dir, SESSION_DB, copy_prompt_hub
+    
+    # Display banner
+    show_banner()
     
     # Setup brosession directory structure
     ensure_brosession_dir()
