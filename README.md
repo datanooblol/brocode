@@ -126,30 +126,60 @@ your-project/
 
 ### Interactive Commands
 
-- **`/code`** - Enter code generation mode
-  - Prompts for coding task description
-  - Optionally analyze existing codebase for context
-  - Choose output format (terminal display or save to file)
-  - Generates Python code following best practices
+- **`/agents`** - Enter agent selection mode with interactive menu
+  - **Coder Agent**: Full-featured code operations with CRUD interface
+    - **Create**: Generate new code with codebase reference and multi-file selection
+    - **Read**: Display file content with syntax highlighting
+    - **Update**: Modify existing code (Coming in next release)
+    - **Delete**: Remove files with confirmation
+  - **Analyst Agent**: Data analysis capabilities (Coming in next release)
   
 - **`/exit`** - Quit the session
 - **`/clear`** - Clear chat history
 - **Default input** - Enter chat mode for general conversation
 
-### Code Generation Workflow
+### Coder Agent Features
 
-1. **Task Input**: Describe what you want to code
-2. **Codebase Analysis** (optional): 
-   - Provide folder or file path
-   - BroCode analyzes Python files using AST parsing
-   - Extracts classes, functions, imports, and structure
-   - Maintains consistency with existing code patterns
-3. **Output Selection**: Choose terminal display or file save
-4. **Code Generation**: AI generates code following:
-   - PEP 8 style guidelines
-   - Google docstring format
-   - Type hints and error handling
-   - Consistency with existing codebase patterns
+#### Interactive CRUD Operations
+- **Arrow Key Navigation**: Use ↑↓ keys to navigate all menus
+- **Multi-Select File Reference**: When referencing codebase:
+  - Select multiple files with Space bar
+  - "✅ Select All" option for bulk selection
+  - Visual file tree with 📄 icons
+- **Visual Code Display**: All code shown with syntax highlighting and line numbers
+- **Cross-Platform Clipboard**: Copy generated code to clipboard (when pyperclip available)
+
+#### Create Workflow
+1. **Task Description**: What you want to create
+2. **Codebase Reference** (optional): 
+   - y/n prompt for existing codebase
+   - Folder path input
+   - Multi-select files for reference
+3. **Output Method**: Display in terminal or save to file
+4. **Code Generation**: Always displays code first, then saves if requested
+5. **Clipboard Copy**: Optional copy to clipboard
+
+#### Read Operation
+- File path input with validation
+- Syntax-highlighted display in blue panel
+- Optional clipboard copy
+
+#### Delete Operation
+- File path input
+- Type filename confirmation for safety
+- Permanent file removal
+
+### Code Generation Features
+
+- **Rich Visual Display**: All code shown with syntax highlighting, line numbers, and colored panels
+- **AST-Based Analysis**: Intelligent parsing of existing Python codebases
+- **Multi-File Context**: Reference multiple files simultaneously for better context
+- **Interactive File Selection**: Visual file browser with multi-select capabilities
+- **Clipboard Integration**: Copy generated code directly to system clipboard
+- **PEP 8 Compliance**: Automatic style guideline following
+- **Google Docstrings**: Standardized documentation format
+- **Type Hints**: Full type annotation support
+- **Error Handling**: Proper exception management
 
 ### Chat Mode
 

@@ -1,6 +1,64 @@
 # Version History
 
-## 0.1.1 (Current Release)
+## 0.1.2 (Current Release)
+
+### Major Features
+- **Interactive Agent System**: Refactored from `/code` to `/agents` with arrow key navigation
+  - **Coder Agent**: Full CRUD operations for file management
+  - **Analyst Agent**: Placeholder for future data analysis features
+- **Rich Visual Interface**: Syntax highlighting and colored panels for all code displays
+- **Multi-Select File Reference**: Choose multiple files when referencing existing codebase
+- **Cross-Platform Clipboard**: Copy generated code to clipboard (requires pyperclip)
+- **ASCII Banner**: Stylized startup banner with version display
+
+### Interactive Workflow Improvements
+- **CRUD Menu System**: Create, Read, Update, Delete operations with visual feedback
+- **Arrow Key Navigation**: InquirerPy-based menus throughout the application
+- **Visual Code Display**: All code shown with syntax highlighting, line numbers, and themed panels
+- **Always-Show-Then-Save**: Generated code always displayed before saving to file
+- **Confirmation Dialogs**: Type-to-confirm deletion for safety
+- **Session Loop**: Return to agent menu after operations for continuous workflow
+
+### Agent Features
+#### Coder Agent
+- **Create**: Generate new code with optional multi-file codebase reference
+- **Read**: Display file content with rich syntax highlighting
+- **Update**: Placeholder for future code modification features
+- **Delete**: Safe file deletion with filename confirmation
+- **Exit**: Clean exit from coder interface
+
+#### Multi-File Reference System
+- **y/n Codebase Prompt**: Simple yes/no for codebase reference
+- **Folder Path Input**: Specify codebase directory
+- **File Multi-Select**: Choose specific files with Space bar toggle
+- **Select All Option**: Bulk select all Python files in directory
+- **Visual File Tree**: Files displayed with 📄 icons and relative paths
+
+### Visual Enhancements
+- **Colored Panels**: Blue for file content, yellow for previews, green for generated code
+- **Syntax Highlighting**: Python code with monokai theme
+- **Line Numbers**: All code displays include line numbering
+- **Rich Console**: Enhanced terminal output with icons and formatting
+- **ASCII Art Banner**: pyfiglet-generated banner with version info
+
+### Technical Improvements
+- **Optional Dependencies**: Graceful fallback when pyperclip unavailable
+- **Error Handling**: Comprehensive exception handling for file operations
+- **Path Resolution**: Robust file path handling for cross-platform compatibility
+- **Memory Management**: Efficient code context building and display
+
+### Commands Updated
+- **Removed**: `/code` command (replaced by `/agents` → Coder)
+- **Added**: `/agents` command with interactive agent selection
+- **Enhanced**: Banner display on `brocode` and `brocode start`
+
+### Future Release Preview
+- **Copy to Clipboard**: Full clipboard integration (partially implemented)
+- **Update Code Functionality**: Intelligent code modification capabilities
+- **Session State for Chat**: Persistent conversation history
+- **Version Control**: Git integration for code changes
+
+## 0.1.1
 
 ### New Features
 - **BroSession Directory Structure**: All session files now organized in `brosession/` folder
