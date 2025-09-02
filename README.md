@@ -208,10 +208,13 @@ After running `brocode start` once, you can customize the AI behavior by editing
 ## Dependencies
 
 - Python >=3.12
-- click >=8.2.1
-- brollm >=0.1.2
 - broflow >=0.1.4
+- brollm >=0.1.2
 - broprompt >=0.1.5
+- click >=8.2.1
 - inquirerpy >=0.3.4
-- rich >=14.1.0
+- paperclip >=2.7.4
+- prompt-toolkit >=3.0.52
+- pydantic >=2.11.7
 - pyfiglet >=1.0.4
+- rich >=14.1.0
