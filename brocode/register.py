@@ -23,19 +23,25 @@ def ensure_brosession_dir():
     BROSESSION_DIR.mkdir(exist_ok=True)
 
 def copy_prompt_hub():
-    """Copy prompt_hub from package to brosession if not exists."""
-    from importlib import resources
+    """Copy missing files from brocode/prompt_hub to brosession/prompt_hub."""
+    import shutil
     
-    if not PROMPT_HUB_DIR.exists():
-        PROMPT_HUB_DIR.mkdir(exist_ok=True)
-        
-        # Copy chat.md
-        with resources.files('brocode').joinpath('prompt_hub/chat.md').open('r') as f:
-            (PROMPT_HUB_DIR / 'chat.md').write_text(f.read())
-        
-        # Copy code_generator.md
-        with resources.files('brocode').joinpath('prompt_hub/code_generator.md').open('r') as f:
-            (PROMPT_HUB_DIR / 'code_generator.md').write_text(f.read())
+    # Always ensure directory exists
+    PROMPT_HUB_DIR.mkdir(exist_ok=True)
+    
+    # Get source prompt_hub directory from package
+    source_dir = Path(__file__).parent / 'prompt_hub'
+    
+    # Copy only missing files from source to destination
+    if source_dir.exists():
+        for file_path in source_dir.iterdir():
+            if file_path.is_file():  # Only copy files, not directories
+                dest_file = PROMPT_HUB_DIR / file_path.name
+                # Only copy if file doesn't exist
+                if not dest_file.exists():
+                    shutil.copy2(file_path, dest_file)
+                    print(f"📋 Copied {file_path.name} to brosession/prompt_hub/")
+                # Skip if file already exists
 
 def _load_registered_models():
     """Load previously registered models from persistent storage."""

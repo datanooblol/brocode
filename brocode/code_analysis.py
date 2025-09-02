@@ -177,10 +177,10 @@ class MultiScriptContextBuilder:
         return context  # Return formatted context string
     
     def build_contexts(self, file_paths: List[Path]) -> Dict[str, str]:
-        """Build contexts for multiple related Python files.
+        """Build contexts for multiple files (.py and .md supported).
         
         Args:
-            file_paths: List of Path objects pointing to Python files.
+            file_paths: List of Path objects pointing to supported files.
             
         Returns:
             Dictionary mapping file paths to their context strings.
@@ -189,10 +189,41 @@ class MultiScriptContextBuilder:
         
         for file_path in file_paths:  # Iterate through each file path
             try:
-                parsed_data = self.parse_single_file(file_path)  # Parse the file
-                context = self.create_context(parsed_data)  # Create context string
+                if not file_path.exists():
+                    contexts[str(file_path)] = f"ERROR: File not found - {file_path.name}"
+                    continue
+                    
+                if file_path.suffix == '.py':
+                    try:
+                        # Use existing Python parsing
+                        parsed_data = self.parse_single_file(file_path)  # Parse the file
+                        context = self.create_context(parsed_data)  # Create context string
+                    except SyntaxError as e:
+                        # Python syntax error - offer fallback
+                        try:
+                            content = file_path.read_text(encoding='utf-8')
+                            context = f"PYTHON FILE (Syntax Error - Using as Text):\nSyntax Error: {str(e)}\n\nCODE:\n```python\n{content}\n```"
+                        except Exception:
+                            context = f"ERROR: Python file has syntax errors and cannot be read - {str(e)}"
+                    except Exception as e:
+                        context = f"ERROR: Could not parse Python file {file_path.name} - {str(e)}"
+                        
+                elif file_path.suffix == '.md':
+                    try:
+                        # Simple content reading for markdown
+                        content = file_path.read_text(encoding='utf-8')
+                        context = f"MARKDOWN CONTENT:\n{content}"
+                    except UnicodeDecodeError:
+                        context = f"ERROR: Cannot decode {file_path.name} - file may be binary or use unsupported encoding"
+                    except Exception as e:
+                        context = f"ERROR: Could not read markdown file {file_path.name} - {str(e)}"
+                        
+                else:
+                    context = f"ERROR: Unsupported file type {file_path.suffix} for {file_path.name}"
+                    
                 contexts[str(file_path)] = context  # Store context with file path as key
-            except Exception as e:  # Handle parsing errors
-                contexts[str(file_path)] = f"ERROR: Could not parse {file_path.name} - {str(e)}"  # Store error message
+                
+            except Exception as e:  # Handle unexpected errors
+                contexts[str(file_path)] = f"ERROR: Unexpected error processing {file_path.name} - {str(e)}"  # Store error message
         
         return contexts  # Return dictionary of contexts
