@@ -1,3 +1,4 @@
-default_model: local-gpt
+default_model: openai-oss-20b
 models:
-  local-gpt: D:\brocode\mylocal.py
+  llama3.2-11b: /Users/pathompolnilchaikovit/Desktop/projects/brocode/mylocal.py
+  openai-oss-20b: /Users/pathompolnilchaikovit/Desktop/projects/brocode/mylocal.py

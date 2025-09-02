@@ -127,11 +127,9 @@ your-project/
 ### Interactive Commands
 
 - **`/agents`** - Enter agent selection mode with interactive menu
-  - **Coder Agent**: Full-featured code operations with CRUD interface
-    - **Create**: Generate new code with codebase reference and multi-file selection
-    - **Read**: Display file content with syntax highlighting
-    - **Update**: Modify existing code (Coming in next release)
-    - **Delete**: Remove files with confirmation
+  - **Coder Agent**: Full-featured code operations with create and modify capabilities
+    - **Create**: Generate new Python code with codebase reference and multi-file selection
+    - **Modify**: Update existing Python code with preview-before-apply workflow
   - **Analyst Agent**: Data analysis capabilities (Coming in next release)
   
 - **`/exit`** - Quit the session
@@ -159,27 +157,27 @@ your-project/
 4. **Code Generation**: Always displays code first, then saves if requested
 5. **Clipboard Copy**: Optional copy to clipboard
 
-#### Read Operation
-- File path input with validation
-- Syntax-highlighted display in blue panel
-- Optional clipboard copy
+#### Modify Workflow
+1. **Target File Selection**: Choose Python file to modify
+2. **Modification Request**: Describe changes needed
+3. **Codebase Reference** (optional): Reference additional files for context
+4. **Preview Changes**: View proposed modifications before applying
+5. **Accept/Reject**: Choose to apply changes or cancel
+6. **No Backup Files**: Direct modification without .backup files
 
-#### Delete Operation
-- File path input
-- Type filename confirmation for safety
-- Permanent file removal
-
-### Code Generation Features
+### Code Generation & Modification Features
 
 - **Rich Visual Display**: All code shown with syntax highlighting, line numbers, and colored panels
 - **AST-Based Analysis**: Intelligent parsing of existing Python codebases
 - **Multi-File Context**: Reference multiple files simultaneously for better context
 - **Interactive File Selection**: Visual file browser with multi-select capabilities
 - **Clipboard Integration**: Copy generated code directly to system clipboard
+- **Preview-Before-Apply**: See modifications before they're applied to files
+- **Error Handling**: Comprehensive error handling with user choices (retry/skip/cancel)
+- **File Support**: Works with both .py and .md files for codebase reference
 - **PEP 8 Compliance**: Automatic style guideline following
 - **Google Docstrings**: Standardized documentation format
 - **Type Hints**: Full type annotation support
-- **Error Handling**: Proper exception management
 
 ### Chat Mode
 
@@ -203,6 +201,9 @@ default_model: llama3.2-11b
 After running `brocode start` once, you can customize the AI behavior by editing:
 - `brosession/prompt_hub/chat.md` - Chat assistant personality and instructions
 - `brosession/prompt_hub/code_generator.md` - Code generation guidelines and style
+- `brosession/prompt_hub/code_modifier.md` - Code modification guidelines and behavior
+
+**Smart File Management**: BroCode only copies missing prompt files, preserving your customizations while ensuring all required files are present.
 
 ## Dependencies
 
@@ -211,3 +212,6 @@ After running `brocode start` once, you can customize the AI behavior by editing
 - brollm >=0.1.2
 - broflow >=0.1.4
 - broprompt >=0.1.5
+- inquirerpy >=0.3.4
+- rich >=14.1.0
+- pyfiglet >=1.0.4

@@ -6,11 +6,12 @@ import click
 import importlib.util
 import sys
 from pathlib import Path
-from brocode.chat import start_chat
+# from brocode.chat import start_chat
 from brocode.register import get_llm, save_model_registration, list_registered_models, set_default_model, get_default_model, remove_model
 from brocode.flow import get_flow
 from brocode.actions import Shared
 from brocode.banner import show_banner
+from broflow import state
 
 @click.group(epilog="""\b
 Examples:
@@ -34,7 +35,8 @@ def main(ctx):
 
 @main.command()
 @click.option('--llm', help='LLM to use (uses default if not specified)')
-def start(llm):
+@click.option('--debug', type=bool, default=False, help='Enable debug mode (True/False)')
+def start(llm, debug):
     """Start chat session."""
     from brocode.register import ensure_brosession_dir, SESSION_DB, copy_prompt_hub
     
@@ -48,6 +50,7 @@ def start(llm):
     
     llm_name = llm or get_default_model() or "echo"
     model = get_llm(llm_name)
+    state.set("debug", debug)
     flow = get_flow(model)
     shared = Shared()
     flow.run(shared)

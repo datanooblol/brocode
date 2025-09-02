@@ -38,3 +38,33 @@ class LocalLLM(BaseLLM):
             }
         )
         return response.json()['message']['content']
+
+class BaseOpenAI(BedrockChat):
+    def __init__(self, model_name):
+        super().__init__(model_name=model_name)
+    
+    def run(self, system_prompt, messages):
+        model = self.get_model()
+        response = model.converse(
+            modelId=self.model_name,
+            messages=messages,
+            system=self.SystemMessage(text=system_prompt),
+            inferenceConfig={
+                # "maxTokens": 150, 
+                "temperature": 0.7, 
+                # "topP": 0.9
+            },
+        )
+        return response['output']['message']['content'][-1]['text']
+
+@register_llm("openai-oss-20b")
+class OpenAI20b(BaseOpenAI):
+    def __init__(self):
+        super().__init__(model_name="openai.gpt-oss-20b-1:0")
+        
+
+        
+@register_llm("openai-oss-120b")
+class OpenAI120b(OpenAI20b):
+    def __init__(self):
+        super().__init__(model_name="openai.gpt-oss1-20b-1:0")
