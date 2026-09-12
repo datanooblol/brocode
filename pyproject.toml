@@ -2,6 +2,10 @@
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["brocode*"]
+
 [project]
 name = "brocode"
 version = "0.2.0"
@@ -11,6 +15,9 @@ requires-python = ">=3.12"
 dependencies = [
     "broflow>=0.2.0",
     "brollm>=0.2.0",
+    "pyyaml>=6.0.3",
+    "rapidfuzz>=3.14.6",
+    "textual>=8.2.8",
 ]
 
 
@@ -19,5 +26,7 @@ dev = [
     "boto3>=1.43.93",
     "httpx>=0.28.1",
     "ipykernel>=7.3.0",
+    "pytest>=9.1.1",
     "requests>=2.34.2",
+    "textual-dev>=1.8.0",
 ]
