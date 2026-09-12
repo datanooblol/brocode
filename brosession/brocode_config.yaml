@@ -1,3 +1,0 @@
-default_model: local-gpt
-models:
-  local-gpt: D:\brocode\mylocal.py
